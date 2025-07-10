@@ -1,13 +1,13 @@
 $(document).ready(function () {
-  // Show/Hide Password Toggle
+  // Show/hide password toggle
   $("#showPassword").on("change", function () {
     const type = this.checked ? "text" : "password";
     $("#password, #confirmPassword").attr("type", type);
   });
 
-  // Allow only digits in phone input
+  // Allow only digits in phone number field
   $("#phone").on("input", function () {
-    this.value = this.value.replace(/\D/g, ""); // Removes non-digits
+    this.value = this.value.replace(/\D/g, "");
   });
 
   $("#userForm").submit(function (e) {
@@ -20,36 +20,36 @@ $(document).ready(function () {
     const password = $("#password").val().trim();
     const confirmPassword = $("#confirmPassword").val().trim();
 
-    // Empty field check
+    // Required field check
     if (!name || !email || !phone || !password || !confirmPassword) {
       showMessage("Please fill in all fields.", "error");
       return;
     }
 
-    // Email format
+    // Email validation
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
       showMessage("Enter a valid email address.", "error");
       return;
     }
 
-    // Phone number check
+    // Phone number validation
     if (!/^\d{10}$/.test(phone)) {
       showMessage("Phone number must be exactly 10 digits.", "error");
       return;
     }
 
-    // Password strength
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+    // Password validation: 8-15 chars, upper, lower, number, special char
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,15}$/;
     if (!passwordPattern.test(password)) {
       showMessage(
-        "Password must be at least 6 characters and include uppercase, lowercase, and numbers.",
+        "Password must be 8–15 characters, include uppercase, lowercase, number, and special character.",
         "error"
       );
       return;
     }
 
-    // Confirm password check
+    // Confirm password match
     if (password !== confirmPassword) {
       showMessage("Passwords do not match.", "error");
       return;
